@@ -5,8 +5,16 @@ import re
 import urllib.request
 import urllib.error
 
-# 環境変数からエンドポイントを取得
-API_URL = os.environ.get("https://5653-35-233-187-88.ngrok-free.app/")
+
+from pyngrok import ngrok
+
+ngrok_tunnel = ngrok.connect(8501)
+public_url = ngrok_tunnel.public_url
+print(f"✅ 公開URL:   {public_url}")
+
+# そのまま使う
+API_URL = public_url + "/predict"   # FastAPI のエンドポイントパスを足す
+
 if not API_URL:
     raise RuntimeError("Environment variable COLAB_API_URL is not set")
 
